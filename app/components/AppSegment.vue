@@ -18,7 +18,7 @@ const slots = useSlots()
 
 <style scoped>
 .segment {
-  background-color: hsl(var(--bg2));
+  background-color: hsla(var(--bg2), 0.2);
   padding: 1em 2em;
   position: relative;
   min-height: 1em;
@@ -35,7 +35,7 @@ const slots = useSlots()
   clip-path: var(--path);
   
   &:hover {
-    background-color: hsl(var(--bg3));
+    background-color: hsla(var(--bg2), 0.4);
   }
   &.accent {
     border: 0.2em solid hsl(var(--acc));

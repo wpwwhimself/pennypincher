@@ -1,22 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
 :root{
-  --acc: 330, 72%, 48%;
+  --acc-hue: 330;
+  --acc-sat: 72%;
+  --acc: var(--acc-hue), var(--acc-sat), 48%;
 }
 
 @media (prefers-color-scheme: dark){
   :root{
     --fg: 0, 0%, 100%;
-    --bg1: 0, 0%, 7%;
-    --bg2: 0, 0%, 13%;
-    --bg3: 0, 0%, 20%;
+    --bg1: var(--acc-hue), calc(var(--acc-sat) / 3), 7%;
+    --bg2: 0, 0%, 75%;
   }
 }
 @media (prefers-color-scheme: light){
   :root{
     --fg: 0, 0%, 0%;
-    --bg1: 0, 0%, 100%;
-    --bg2: 0, 0%, 93%;
-    --bg3: 0, 0%, 87%;
+    --bg1: var(--acc-hue), calc(var(--acc-sat) / 3), 60%;
+    --bg2: 0, 0%, 100%;
   }
 }
 

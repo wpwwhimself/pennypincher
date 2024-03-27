@@ -1,10 +1,14 @@
 <script setup lang="ts">
 const router = useRouter()
+
+const navigatable = router.getRoutes()
+  .filter(route => route.name?.toString().indexOf("-") == -1)
+  .sort((a, b) => (a.meta.order as number) - (b.meta.order as number))
 </script>
 
 <template>
   <nav class="flex-right">
-    <AppButton v-for="x of router.getRoutes()" 
+    <AppButton v-for="x in navigatable"
       :label="(x.meta.title as string)"
       @click="navigateTo(x)"
     />

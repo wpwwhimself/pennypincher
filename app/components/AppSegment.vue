@@ -10,7 +10,7 @@ const slots = useSlots()
     <div class="icon" v-if="slots.icon">
       <slot name="icon" />
     </div>
-    <div class="content flex-down">
+    <div class="content">
       <slot />
     </div>
   </div>

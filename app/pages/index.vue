@@ -1,11 +1,15 @@
 <script setup lang="ts">
 definePageMeta({
-  title: "Home"
+  title: "Kokpit",
+  icon: "house-chimney",
+  order: 1,
 })
+
+
 </script>
 
 <template>
   <AppSegment>
-    <h2>aaa</h2>
+    <p>Tu będzie podsumowanie obecnego stanu konta</p>
   </AppSegment>
 </template>

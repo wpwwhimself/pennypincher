@@ -1,11 +1,14 @@
 <script setup lang="ts">
 definePageMeta({
-  title: "Blabla"
+  title: "Edytuj konto",
+  // icon: "house-chimney",
 })
+
+
 </script>
 
 <template>
   <AppSegment>
-    <h2>blabla</h2>
+    <p>Tu będzie edytor konta</p>
   </AppSegment>
 </template>

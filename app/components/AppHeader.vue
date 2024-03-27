@@ -6,15 +6,17 @@ const route = useRoute()
 <template>
   <header class="flex-down">
     <AppSegment>
-      <div class="flex-right">
-        <AppLogo />
-        <div>
-          <h1>{{ route.meta.title }}</h1>
-          <p class="accent">{{ appConfig.title }}</p>
+      <div class="flex-down">
+        <div class="flex-right">
+          <AppLogo />
+          <div>
+            <h1>{{ route.meta.title }}</h1>
+            <p class="accent">{{ appConfig.title }}</p>
+          </div>
         </div>
-      </div>
-      <div id="nav-container">
-        <AppNav />
+        <div id="nav-container">
+          <AppNav />
+        </div>
       </div>
     </AppSegment>
   </header>
@@ -27,14 +29,14 @@ h1, p {
 }
 header {
   overflow: hidden;
-  --height: calc(1.5em + 1em + 2em);
+  --height: calc(2em + 1em + 2.5em);
   height: var(--height);
 }
 #nav-container {
   opacity: 0;
 }
 header:hover {
-  height: calc(var(--height) + 3em + 1em);
+  height: calc(var(--height) + 3em + 0.5em);
 
   & #nav-container {
     opacity: 1;

@@ -5,5 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-  <h2>haha</h2>
+  <AppSegment>
+    <h2>aaa</h2>
+  </AppSegment>
 </template>

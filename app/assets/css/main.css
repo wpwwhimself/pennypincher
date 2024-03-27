@@ -39,9 +39,22 @@ body{
   gap: 1em;
 }
 
+/* animation */
+
 *{
   transition-duration: 0.3s;
 }
+.slide-enter-active,
+.slide-enter-from {
+  opacity: 0;
+  transform: translate(-50px, 0);
+}
+.slide-leave-to {
+  opacity: 0;
+  transform: translate(50px, 0);
+}
+
+/* basics */
 
 h1, h2, h3, h4{
   text-align: center;

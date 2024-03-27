@@ -3,15 +3,11 @@ const router = useRouter()
 </script>
 
 <template>
-  <nav>
-    <AppSegment>
-      <div class="flex-right">
-        <AppButton v-for="x of router.getRoutes()" 
-          :label="(x.meta.title as string)"
-          @click="navigateTo(x)"
-        />
-      </div>
-    </AppSegment>
+  <nav class="flex-right">
+    <AppButton v-for="x of router.getRoutes()" 
+      :label="(x.meta.title as string)"
+      @click="navigateTo(x)"
+    />
   </nav>
 </template>
 

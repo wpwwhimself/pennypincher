@@ -4,7 +4,10 @@ const appConfig = useAppConfig()
 
 <template>
   <footer>
-    <h2>{{ appConfig.title }}r</h2>
-    <AppLogo />
+    <AppSegment>
+      <template>
+        <span>{{ appConfig.title }}</span>
+      </template>
+    </AppSegment>
   </footer>
 </template>

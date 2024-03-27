@@ -32,15 +32,27 @@ body{
   display: flex; flex-direction: column;
 }
 
+#__nuxt {
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
 *{
   transition-duration: 0.3s;
 }
 
 h1, h2, h3, h4{
   text-align: center;
+  font-size: 1.1em;
+}
+h1 {
+  font-size: 1.5em;
 }
 h2{
   color: hsl(var(--acc));
+  font-size: 1.2em;
 }
 
 a{
@@ -91,7 +103,7 @@ thead th, tfoot th{
 
 .flex-right, .flex-down{
   display: flex;
-  gap: 0.5em;
+  gap: 1em;
 }
 
 .flex-right{
@@ -138,139 +150,4 @@ thead th, tfoot th{
 .clickable{
   cursor: pointer;
   user-select: none;
-}
-
-input, select, textarea, .dummyInput{
-  background: none;
-  color: hsl(var(--fg));
-  font-family: "EB Garamond";
-  font-size: 1.1em;
-  border: none;
-  border-bottom: 1px solid hsl(var(--bg3));
-  resize: vertical;
-  text-align: center;
-}
-table input, table .dummyInput{
-  border: none;
-  text-align: left;
-  width: 100%;
-}
-option{
-  color: black;
-}
-.dummyInput{
-  width: 100%;
-}
-#row-adder, .hidden{
-  display: none;
-}
-input[type="checkbox"]{
-  height: 1em;
-}
-textarea{
-  font-size: 0.9em;
-  text-align: left;
-  font-family: monospace;
-  width: 40vw; height: 30vh;
-  transition: none;
-}
-.variant-container textarea{
-  height: 5em;
-}
-button, .button{
-  color: hsl(var(--fg));
-  background-color: hsl(var(--bg3));
-  padding: 0 0.75em;
-  --spacing: 0.3em;
-  margin: calc(var(--spacing) * 1.5) 0;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.2em;
-  border: none;
-  text-decoration: none;
-  cursor: pointer;
-  position: relative;
-}
-button::before, .button::before{
-  content: "";
-  transition-duration: 0.3s;
-  position: absolute;
-  top: calc(var(--spacing) * -1); bottom: calc(var(--spacing) * -1);
-  left: 0; right: 0;
-  border-top: 3px solid hsl(var(--bg3));
-  border-bottom: 3px solid hsl(var(--bg3));
-}
-button:hover, .button:hover{
-  color: black;
-  background-color: hsl(var(--acc));
-}
-button.slick:hover::before, .button.slick:hover::before{
-  border-color: hsl(var(--acc));
-}
-.light-button{
-  font-family: "EB Garamond";
-  font-weight: normal;
-  border: 2px solid hsl(var(--bg3));
-  background: none;
-}
-.less-interesting{
-  font-family: "EB Garamond";
-  font-weight: normal;
-  background-color: hsl(var(--bg2));
-}
-.slick, .slick:hover{
-  background: none;
-  color: hsl(var(--fg));
-}
-
-input:focus, select:focus, textarea:focus{
-  box-shadow: 0 0 2em hsl(var(--acc));
-}
-
-label{
-  font-size: 0.8em;
-  font-style: italic;
-  opacity: 0.7;
-}
-
-.inputContainer{
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: center;
-  align-items: center;
-}
-
-.list-element{
-  position: relative;
-  height: 2em;
-}
-.list-element .main{
-  border: 2px solid transparent;
-  user-select: none;
-}
-.list-element .hover{
-  opacity: 0;
-  z-index: -1;
-  position: absolute;
-  top: 1.25em; left: 50%; translate: -50% -5px;
-  white-space: nowrap;
-  color: hsla(var(--fg), 0.5);
-}
-.list-element:hover .main{
-  border-top: 2px solid hsl(var(--acc));
-  border-bottom: 2px solid hsl(var(--acc));
-}
-.list-element:hover .hover{
-  opacity: 1;
-  z-index: 1;
-  translate: -50% 0;
-}
-
-section{
-  /* border-top: 3px solid hsl(var(--bg2)); */
-  /* border-bottom: 3px solid hsl(var(--bg2)); */
-  margin: 1em 0;
-}
-section>*:last-of-type{
-  margin-bottom: 1em;
 }

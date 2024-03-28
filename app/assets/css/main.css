@@ -89,8 +89,8 @@ thead th, tfoot th{
 
 /* misc */
 
-.ghost{
-  opacity: 0.4;
+.ghost, label{
+  opacity: 0.5;
 }
 .accent{
   color: hsl(var(--acc)) !important;
@@ -116,8 +116,25 @@ thead th, tfoot th{
 .flex-right, .flex-down{
   display: flex;
   gap: 1em;
-}
 
+  &.wrap{
+    flex-wrap: wrap;
+  }
+  &.center{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  &.center-vert{
+    align-items: baseline;
+  }
+  &.stretch *{
+    flex-basis: 100%;
+  }
+  &.tight{
+    gap: 0;
+  }
+}
 .flex-right{
   flex-direction: row;
 }
@@ -125,31 +142,11 @@ thead th, tfoot th{
   flex-direction: column;
 }
 
-.wrap{
-  flex-wrap: wrap;
-}
-
-.center{
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-.center-vert{
-  align-items: baseline;
-}
-.stretch *{
-  flex-basis: 100%;
-}
-
-.tight{
-  gap: 0;
-}
-
 /* gridding */
 
 .grid-2, .grid-3, .grid-5{
   display: grid;
-  gap: 0.5em;
+  gap: 1em;
   grid-template-columns: repeat(var(--grid-count), 1fr);
   align-items: flex-start;
 }

@@ -132,7 +132,7 @@ thead th, tfoot th{
     flex-basis: 100%;
   }
   &.tight{
-    gap: 0;
+    gap: 0.25em 0.5em;
   }
 }
 .flex-right{
@@ -159,4 +159,9 @@ thead th, tfoot th{
 .clickable{
   cursor: pointer;
   user-select: none;
+  background-color: hsla(var(--acc), 0.2) !important;
+
+  &:hover {
+    background-color: hsla(var(--acc), 0.4) !important;
+  }
 }

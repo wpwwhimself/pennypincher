@@ -10,13 +10,21 @@ const accounts = [1, 2, 3]
 
 <template>
   <div class="flex-down">
-    <AppSegment>
-      <AppButton label="Dodaj nowe" @click="navigateTo('accounts/add')" />
+    <AppSegment
+      @click="navigateTo('accounts/add')"
+      extra-classes="clickable"
+    >
+      Dodaj nowe
     </AppSegment>
 
     <div class="grid-2">
       <AppSegment v-for="account of accounts">
-        <p>Tu będzie lista wszystkich kont</p>
+        <h2>Konto {{ account }}</h2>
+        <p>Opis konta</p>
+        <div class="flex-right tight">
+          <AppButton label="Edytuj" @click="navigateTo(`accounts/modify/${account}`)" />
+          <AppButton label="Transakcje" @click="" />
+        </div>
       </AppSegment>
     </div>
   </div>

@@ -38,19 +38,13 @@ const slots = useSlots()
     background-color: hsla(var(--bg2), 0.4);
   }
   &.accent {
-    border: 0.2em solid hsl(var(--acc));
     color: inherit !important;
-    padding-block: 0.5em;
-
-    --tip-size: 1em;
-
-    &:hover {
-      background-color: hsl(var(--acc));
-    }
+    border: 2px solid hsl(var(--acc));
+  
     &::before, &::after {
       content: "";
       position: absolute;
-      border: calc(var(--tip-size) / 2 - 1px) solid hsl(var(--acc));
+      border: calc(var(--tip-size) / 2) solid hsl(var(--acc));
     }
     &::before {
       top: 0; left: 0;
@@ -62,6 +56,10 @@ const slots = useSlots()
       border-top-color: transparent;
       border-left-color: transparent;
     }
+  }
+  &.button {
+    padding-block: 0.5em;
+    --tip-size: 1em;
   }
 }
 </style>

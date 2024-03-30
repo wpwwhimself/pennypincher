@@ -7,7 +7,7 @@ const navigatable = router.getRoutes()
 </script>
 
 <template>
-  <nav class="flex-right">
+  <nav class="flex-right tight">
     <AppButton v-for="x in navigatable"
       :label="(x.meta.title as string)"
       @click="navigateTo(x)"
@@ -18,6 +18,5 @@ const navigatable = router.getRoutes()
 <style scoped>
 nav{
   text-align: right;
-  gap: 0.2em 0.5em !important;
 }
 </style>

@@ -6,7 +6,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <AppSegment extra-classes="accent clickable">
+  <AppSegment extra-classes="accent button clickable">
     {{ props.label }}
   </AppSegment>
 </template>

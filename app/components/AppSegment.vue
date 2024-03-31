@@ -3,10 +3,16 @@ const props = defineProps<{
   extraClasses?: string,
 }>()
 const slots = useSlots()
+const hasOnClick = computed(() => !!getCurrentInstance()?.vnode.props?.onClick)
 </script>
 
 <template>
-  <div :class="`segment flex-right ${props.extraClasses}`">
+  <div :class="[
+    `segment`,
+    `flex-right`,
+    hasOnClick && `clickable`,
+    props.extraClasses,
+  ].filter(Boolean).join(' ')">
     <div class="icon" v-if="slots.icon">
       <slot name="icon" />
     </div>

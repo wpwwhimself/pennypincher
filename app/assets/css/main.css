@@ -77,6 +77,10 @@ a:has(button){
   text-decoration: none;
 }
 
+h1, h2, h3, h4, p {
+  margin: 0;
+}
+
 table{
   width: 100%;
   border-spacing: 0;

@@ -1,3 +1,12 @@
+<script setup lang="ts">
+const appConfig = useAppConfig()
+const route = useRoute()
+useHead({
+  title: (route.meta.title as string),
+  titleTemplate: `%s | ${appConfig.title}`,
+})
+</script>
+
 <template>
   <AppHeader />
   <NuxtLoadingIndicator />

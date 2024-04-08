@@ -67,5 +67,9 @@ const hasOnClick = computed(() => !!getCurrentInstance()?.vnode.props?.onClick)
     padding-block: 0.5em;
     --tip-size: 1em;
   }
+
+  & .content {
+    width: 100%;
+  }
 }
 </style>

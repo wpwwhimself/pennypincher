@@ -2,12 +2,16 @@
 const props = defineProps<{
   label: string,
   value?: string | number,
+  color?: string,
 }>()
 </script>
 
 <template>
   <div class="shoutout flex-down tight">
-    <label>{{ props.label }}</label>
+    <label>
+      <span v-if="props.color" :style="`color: ${props.color}`">&#11044;</span>
+      {{ props.label }}
+    </label>
     <strong>{{ props.value ?? "—" }}</strong>
   </div>
 </template>

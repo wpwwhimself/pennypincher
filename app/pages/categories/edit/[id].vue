@@ -5,11 +5,11 @@ definePageMeta({
 })
 const [route, router] = [useRoute(), useRouter()]
 
-const { data: account, error } = await useFetch<Account>(`http://localhost:8000/api/accounts/${route.params.id}/`)
+const { data: category, error } = await useFetch<Category>(`http://localhost:8000/api/categories/${route.params.id}/`)
 
-const name = ref(account.value?.name || "")
-const description = ref(account.value?.description || "")
-const color = ref(account.value?.color || "")
+const name = ref(category.value?.name || "")
+const description = ref(category.value?.description || "")
+const color = ref(category.value?.color || "")
 
 const updateRef = (target: string, val: string) => {
   const refTable = {
@@ -22,7 +22,7 @@ const updateRef = (target: string, val: string) => {
 }
 
 const handleSubmit = async () => {
-  const {data, error} = await useFetch(`http://localhost:8000/api/accounts/edit/${route.params.id}`, {
+  const {data, error} = await useFetch(`http://localhost:8000/api/categories/edit/${route.params.id}`, {
     method: "post",
     body: {
       name: name.value,
@@ -35,13 +35,13 @@ const handleSubmit = async () => {
     //todo error
   }
 
-  navigateTo("/accounts")
+  navigateTo("/categories")
 }
 </script>
 
 <template>
   <div class="flex-down">
-    <AppSegment @click="navigateTo('/accounts')">Wróć do listy</AppSegment>
+    <AppSegment @click="navigateTo('/categories')">Wróć do listy</AppSegment>
 
     <div class="grid-2">
       <AppSegment>
@@ -62,7 +62,7 @@ const handleSubmit = async () => {
           @input="updateRef('description', $event.target.value)"
         />
       </AppSegment>
-      <AppSegment>
+      <AppSegment v-if="!category?.parent_id">
         <AppInput type="color"
           name="color"
           label="Kolor"
@@ -75,7 +75,7 @@ const handleSubmit = async () => {
 
     <div class="grid-2">
       <AppSegment @click="handleSubmit">Popraw</AppSegment>
-      <AppSegment @click="navigateTo(`/confirm/delete/accounts/${$route.params.id}`)">Usuń</AppSegment>
+      <AppSegment @click="navigateTo(`/confirm/delete/categories/${$route.params.id}`)">Usuń</AppSegment>
     </div>
   </div>
 </template>

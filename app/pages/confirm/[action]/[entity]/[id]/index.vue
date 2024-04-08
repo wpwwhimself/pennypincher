@@ -10,6 +10,7 @@ const dict = {
   "delete": ["usunięcie", "usunąć", "usuń"],
 
   "accounts": ["konta", "konto"],
+  "categories": ["kategorii", "kategorię"],
 }
 const _ = {
   action: dict[route.params.action as keyof typeof dict],

@@ -18,14 +18,19 @@ const { data: accounts } = await useFetch<Account[]>("http://localhost:8000/api/
     </AppSegment>
     <div class="grid-2" v-else>
       <AppSegment v-for="account of accounts">
-        <h2>
-          <span :style="`color: ${account.color}`">&#11044;</span>
-          {{ account.name }}
-        </h2>
-        <p v-if="account.description">{{ account.description }}</p>
-        <div class="flex-right tight">
-          <AppButton label="Edytuj" @click="navigateTo(`accounts/edit/${account.id}`)" />
-          <AppButton label="Transakcje" @click="" />
+        <div class="flex-down">
+          <div>
+            <h2>
+              <span :style="`color: ${account.color}`">&#11044;</span>
+              {{ account.name }}
+            </h2>
+            <p v-if="account.description">{{ account.description }}</p>
+          </div>
+
+          <div class="flex-right tight">
+            <AppButton label="Edytuj" @click="navigateTo(`/accounts/edit/${account.id}`)" />
+            <AppButton label="Transakcje" @click="" />
+          </div>
         </div>
       </AppSegment>
     </div>

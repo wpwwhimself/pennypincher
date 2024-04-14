@@ -66,6 +66,7 @@ const hasOnClick = computed(() => !!getCurrentInstance()?.vnode.props?.onClick)
   &.button {
     padding-block: 0.5em;
     --tip-size: 1em;
+    transition: border 0s;
   }
 
   & .content {

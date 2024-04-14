@@ -18,3 +18,16 @@ interface Category {
   created_at: Date,
   updated_at: Date, 
 }
+
+interface Transaction {
+  id: number,
+  date: Date,
+  category_id: number,
+  category: Category,
+  account_id: number,
+  account: Account,
+  description?: string,
+  amount: number,
+  created_at: Date,
+  updated_at: Date, 
+}

@@ -18,7 +18,7 @@ const {data: accounts, error} = await useFetch<Account[]>(`http://localhost:8000
       <AppSegment v-for="ac of accounts"
         @click="navigateTo(`/transactions/account/${ac.id}`)"
       >
-        <Shoutout :label="ac.name" :color="ac.color" />
+        <Shoutout :label="ac.name" :color-in-label="ac.color" />
       </AppSegment>
   
     </div>

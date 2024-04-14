@@ -1,18 +1,21 @@
 <script setup lang="ts">
 const props = defineProps<{
   label: string,
-  value?: string | number,
-  color?: string,
+  value?: any,
+  colorInLabel?: string,
+  colorInValue?: string,
 }>()
+const display_value: string = props.value || "—"
 </script>
 
 <template>
   <div class="shoutout flex-down tight">
     <label>
-      <span v-if="props.color" :style="`color: ${props.color}`">&#11044;</span>
-      {{ props.label }}
+      <slot name="label">{{ props.label }}</slot>
     </label>
-    <strong>{{ props.value ?? "—" }}</strong>
+    <strong>
+      <slot>{{ display_value ?? "—" }}</slot>
+    </strong>
   </div>
 </template>
 

@@ -153,6 +153,10 @@ thead th, tfoot th{
   gap: 1em;
   grid-template-columns: repeat(var(--grid-count), 1fr);
   align-items: flex-start;
+
+  &.center {
+    align-items: center;
+  }
 }
 .grid-2{ --grid-count: 2 }
 .grid-3{ --grid-count: 3 }

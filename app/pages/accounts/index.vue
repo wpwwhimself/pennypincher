@@ -21,8 +21,7 @@ const { data: accounts } = await useFetch<Account[]>("http://localhost:8000/api/
         <div class="flex-down">
           <div>
             <h2>
-              <span :style="`color: ${account.color}`">&#11044;</span>
-              {{ account.name }}
+              <AccountRender :account="account" />
             </h2>
             <p v-if="account.description">{{ account.description }}</p>
           </div>

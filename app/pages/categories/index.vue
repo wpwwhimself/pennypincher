@@ -21,8 +21,7 @@ const { data: categories } = await useFetch<Category[]>("http://localhost:8000/a
         <div class="flex-down">
           <div>
             <h2>
-              <span :style="`color: ${category.color}`">&#11044;</span>
-              {{ category.name }}
+              <CategoryRender :category="category" />
             </h2>
             <p v-if="category.description">{{ category.description }}</p>
           </div>

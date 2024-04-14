@@ -29,7 +29,12 @@ const { data: accounts } = await useFetch<Account[]>("http://localhost:8000/api/
 
           <div class="flex-right tight">
             <AppButton label="Edytuj" @click="navigateTo(`/accounts/edit/${account.id}`)" />
-            <AppButton label="Transakcje" @click="" />
+            <AppButton label="Transakcje" @click="navigateTo({
+              path: `/transactions`,
+              query: {
+                account: account.id,
+              }
+            })" />
           </div>
         </div>
       </AppSegment>

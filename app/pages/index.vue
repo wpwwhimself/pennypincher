@@ -18,7 +18,10 @@ const {data: accounts, error} = await useFetch<Account[]>(`http://localhost:8000
 
     <div class="grid-2">
       <AppSegment v-for="account of accounts"
-        @click="navigateTo(`/transactions/account/${account.id}`)"
+        @click="navigateTo({
+          path: `/transactions`,
+          query: {account: account.id}
+        })"
       >
         <Shoutout>
           <template v-slot:label><AccountRender :account="account" /></template>

@@ -29,7 +29,12 @@ const { data: categories } = await useFetch<Category[]>("http://localhost:8000/a
 
           <div class="flex-right tight">
             <AppButton label="Edytuj" @click="navigateTo(`/categories/edit/${category.id}`)" />
-            <AppButton label="Transakcje" @click="" />
+            <AppButton label="Transakcje" @click="navigateTo({
+              path: `/transactions`,
+              query: {
+                category: category.id,
+              }
+            })" />
           </div>
 
           <div class="flex-down">

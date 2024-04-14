@@ -4,7 +4,8 @@ interface Account {
   description?: string,
   color: string,
   created_at: Date,
-  updated_at: Date, 
+  updated_at: Date,
+  balance: number,
 }
 
 interface Category {

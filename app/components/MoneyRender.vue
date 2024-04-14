@@ -6,6 +6,6 @@ const props = defineProps<{
 
 <template>
   <span :style="amount <= 0 && 'color: red'">
-    {{ asPln(amount) }}
+    {{ asPln(amount) || "—" }}
   </span>
 </template>

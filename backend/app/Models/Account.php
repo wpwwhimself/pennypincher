@@ -14,8 +14,15 @@ class Account extends Model
         "description",
         "color",
     ];
+    protected $appends = [
+        "balance"
+    ];
 
     public function transactions() {
         return $this->hasMany(Transaction::class)->orderByDesc("date");
+    }
+
+    public function getBalanceAttribute() {
+        return $this->transactions->sum("amount");
     }
 }

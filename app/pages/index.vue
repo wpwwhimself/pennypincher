@@ -11,14 +11,19 @@ const {data: accounts, error} = await useFetch<Account[]>(`http://localhost:8000
 <template>
   <div class="flex-down">
     <AppSegment>
-      <Shoutout label="Całkowity stan konta" />
+      <Shoutout label="Całkowity stan konta">
+        <MoneyRender :amount="accounts?.reduce((a, b) => a + b.balance, 0) || 0" />
+      </Shoutout>
     </AppSegment>
 
     <div class="grid-2">
-      <AppSegment v-for="ac of accounts"
-        @click="navigateTo(`/transactions/account/${ac.id}`)"
+      <AppSegment v-for="account of accounts"
+        @click="navigateTo(`/transactions/account/${account.id}`)"
       >
-        <Shoutout :label="ac.name" :color-in-label="ac.color" />
+        <Shoutout>
+          <template v-slot:label><AccountRender :account="account" /></template>
+          <MoneyRender :amount="account.balance" />
+        </Shoutout>
       </AppSegment>
   
     </div>

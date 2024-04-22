@@ -1,75 +1,259 @@
-import_data <- function(spreadsheet, year_of_life) {
-  #### libraries ####
-  library(googlesheets4)
-  library(tidyverse)
-  library(purrr)
+#### libraries ####
+library(readxl)
+library(tidyverse)
+library(purrr)
 
-  #### dictionaries ####
-  months <- c(
-    "styczeń",
-    "luty",
-    "marzec",
-    "kwiecień",
-    "maj",
-    "czerwiec",
-    "lipiec",
-    "sierpień",
-    "wrzesień",
-    "piździernik",
-    "liściopad",
-    "grudzień"
-  )
+#### import data ####
+years_of_life <- 20:26
+months <- c(
+  "styczeń",
+  "luty",
+  "marzec",
+  "kwiecień",
+  "maj",
+  "czerwiec",
+  "lipiec",
+  "sierpień",
+  "wrzesień",
+  "piździernik",
+  "liściopad",
+  "grudzień"
+)
 
-  data <- months %>%
-    map(function(month) {
-      current_month <- which(months == month)
-      current_year <- 1997 + year_of_life - (current_month < 9)
-
-      read_sheet(
-        spreadsheet,
-        month,
-        "A:E"
-      ) %>%
-        mutate(
-          date = ymd(paste(current_year, current_month, dzień, sep = "-")),
-          category = case_match(
-            kategoria,
-            `1` = 2,
-            `1.1` = 3,
-            `1.2` = 4,
-            `1.3` = 5,
-            `1.4` = 6,
-            `1.5` = 7,
-            `2` = 8,
-            `2.1` = 9,
-            `3` = 10,
-            `3.1` = 11,
-            `3.2` = 12,
-            `3.3` = 13,
-            `4` = 14,
-            `4.1` = 15,
-            `4.2` = 16,
-            `4.3` = 17,
-            `5` = 18,
-            `5.1` = 19,
-            `5.2` = 20,
-            `5.3` = 21,
-            `5.4` = 22,
-            `5.5` = 23,
-            `5.6` = 24,
-            `5.7` = 25,
-            `6` = 26,
-            `7` = 27,
-            `7.1` = 28,
-            `0` = 1,
-            `-1` = 29,
-            `-1.1` = 30,
-            `-1.2` = 31
-          )
-        )
-    }) # %>%
-    # bind_rows()
-
-  return(data)
+# 2017-01-01 - 2017-12-31: 1
+# 2018-01-01 - 2018-08-31: 2
+# 2018-09-01 - 2021-08-31: 3
+# 2021-09-01 - present: 4
+c_categories <- function(date) {
+  if (date %within% interval(ymd("2017-01-01"), ymd("2017-12-31")))
+    return(c(
+      "1" = "0",
+      "2" = "1",
+      "11" = "2",
+      "10" = "3",
+      "8" = "4",
+      "18" = "5",
+      "26" = "6",
+      "28" = "7"
+    ))
+  if (date %within% interval(ymd("2018-01-01"), ymd("2018-08-31")))
+   return(c(
+      "1" = "0",
+      "2" = "1",
+      "11" = "2",
+      "10" = "3",
+      "8" = "4",
+      "18" = "5",
+      "26" = "6",
+      "28" = "-1",
+      "11" = "7",
+      "7" = "8"
+    ))
+  if (date %within% interval(ymd("2018-09-01"), ymd("2021-08-31")))
+    return(c(
+      "1" = "0",
+      "2" = "1",
+      "11" = "2",
+      "10" = "3",
+      "8" = "4",
+      "18" = "5",
+      "26" = "6",
+      "28" = "-1",
+      "7" = "7",
+      "14" = "8",
+      "34" = "9"
+    ))
+  return(c(
+    "1" = "0",
+    "2" = "1",
+    "3" = "1.1",
+    "4" = "1.2",
+    "5" = "1.3",
+    "6" = "1.4",
+    "7" = "1.5",
+    "7" = "8",
+    "8" = "2",
+    "9" = "2.1",
+    "10" = "3",
+    "11" = "3.1",
+    "12" = "3.2",
+    "13" = "3.3",
+    "14" = "4",
+    "15" = "4.1",
+    "16" = "4.2",
+    "17" = "4.3",
+    "18" = "5",
+    "19" = "5.1",
+    "20" = "5.2",
+    "21" = "5.3",
+    "22" = "5.4",
+    "23" = "5.5",
+    "25" = "5.6",
+    "25" = "5.7",
+    "26" = "6",
+    "27" = "7",
+    "28" = "-1",
+    "29" = "-1.1",
+    "30" = "-1.2",
+    "34" = "7.1"
+  ))
 }
 
+#### custom functions ####
+c_day_to_date <- function(day, current_year, current_month) {
+  ymd(paste(current_year, current_month, day, sep = "-"))
+}
+c_file_path <- function(year_of_life) {
+  paste(
+    "_old_rs_files/Rok życia nr ",
+    year_of_life, ".xlsx",
+    sep = ""
+  )
+}
+
+#### let's roll ####
+data <-
+  map(years_of_life, .progress = TRUE, function(year_of_life) {
+    map(months, .progress = TRUE, function(month) {
+      current_month <- which(months == month)
+      current_year <- 1997 + year_of_life - (current_month >= 9)
+      start_date <- ydm(paste(current_year, current_month, 1, sep = "-"))
+
+      if (start_date < ymd("2017-01-01")) return()
+
+      #### load transactions ####
+      data_main <-
+        read_xlsx(
+          c_file_path(year_of_life),
+          month,
+          if_else(
+            year_of_life == 25,
+            "A10:E9999",
+            if_else(
+              start_date <= ymd("2018-12-31"),
+              "A3:E9999",
+              "A2:E9999"
+            )
+          ),
+          col_names = c("date", "category_id", "description", "account_id", "amount"),
+          col_types = c("numeric", "numeric", "text", "numeric", "numeric")
+        ) %>%
+        na.omit() %>%
+        mutate(
+          date = c_day_to_date(date, current_year, current_month),
+          account_id = case_match(account_id,
+            0 ~ "1",
+            1 ~ "2",
+            2 ~ "3"
+          ),
+          category_id = category_id %>%
+            as_factor() %>%
+            fct_recode(!!!c_categories(start_date))
+        ) %>%
+        mutate( # transfer categories handling
+          category_id = if_else(
+            category_id == "1",
+            as_factor(case_match(account_id,
+              "1" ~ 31,
+              "2" ~ 32,
+              "3" ~ 31
+            )),
+            category_id
+          ),
+          account_id = if_else(
+            category_id %in% c(31, 32, 33),
+            as_factor(case_match(account_id,
+              "1" ~ 2,
+              "2" ~ 3,
+              "3" ~ 3
+            )),
+            account_id
+          )
+        )
+
+      data_crypto <-
+        # 2021-03-01 - 2021-08-31: H3:I33
+        # 2021-09-01 - 2022-08-31: H10:I40
+        # 2022-09-01 - 2023-08-31: H2:I32
+        if (start_date %within% interval(ymd("2021-03-01"), ymd("2023-08-31"))) {
+          read_xlsx(
+            c_file_path(year_of_life),
+            month,
+            if_else(
+              start_date %within% interval(ymd("2021-03-01"), ymd("2021-08-31")),
+              "H3:I33",
+              if_else(
+                start_date %within% interval(ymd("2021-09-01"), ymd("2022-08-31")),
+                "H10:I40",
+                "H2:I32"
+              )
+            ),
+            col_names = c("balance", "amount"),
+            col_types = c("numeric", "numeric")
+          ) %>%
+            rowid_to_column("date") %>%
+            mutate(
+              date = c_day_to_date(date, current_year, current_month),
+              category_id = as_factor(34),
+              account_id = as_factor(3),
+              description = as.character(NA)
+            ) %>%
+            select(-balance) %>%
+            filter(
+              !is.na(date),
+              amount != 0
+            )
+        } else {
+          tibble()
+        }
+
+      data_savings <-
+        # 2022-12-01 - 2023-08-31: J:L
+        # 2023-09-01 - 2023-12-31: H:J
+        if (start_date %within% interval(ymd("2022-12-01"), ymd("2023-12-31"))) {
+          read_xlsx(
+            c_file_path(year_of_life),
+            month,
+            if_else(
+              start_date %within% interval(ymd("2022-12-01"), ymd("2023-08-31")),
+              "J2:L32",
+              "H2:J32"
+            ),
+            col_names = c("amount", "balance", "payout"),
+            col_types = c("numeric", "numeric", "numeric")
+          ) %>%
+            rowid_to_column("date") %>%
+            mutate(
+              date = c_day_to_date(date, current_year, current_month),
+              category_id = as_factor(32),
+              account_id = as_factor(3),
+              description = "auto-oszczędzanie",
+              amount = coalesce(amount, 0) - coalesce(payout, 0)
+            ) %>%
+            select(-payout, -balance) %>%
+            filter(
+              !is.na(date),
+              amount != 0
+            )
+        } else {
+          tibble()
+        }
+
+      #### merge ####
+      data <- bind_rows(
+        data_main,
+        data_crypto,
+        data_savings
+      )
+    }) %>%
+      bind_rows()
+  }) %>%
+    bind_rows() %>%
+    mutate(
+      account_id = as_factor(account_id)
+    )
+
+data %>%
+  write_csv("_old_rs_files/data.csv")
+
+# source("excel_to_csv.r")

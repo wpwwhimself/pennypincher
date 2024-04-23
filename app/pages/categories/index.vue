@@ -38,7 +38,7 @@ const { data: categories } = await useFetch<Category[]>("http://localhost:8000/a
 
           <div class="flex-down">
             <h3>Podkategorie:</h3>
-            <div class="flex-right tight">
+            <div class="flex-right tight wrap">
               <AppButton v-for="subcat of category.subcategories" v-if="category.subcategories?.length"
                 :label="subcat.name"
                 @click="navigateTo(`/categories/edit/${subcat.id}`)"

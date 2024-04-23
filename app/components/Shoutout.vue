@@ -4,6 +4,7 @@ const props = defineProps<{
   value?: any,
   colorInLabel?: string,
   colorInValue?: string,
+  noBold?: boolean,
 }>()
 const display_value: string = props.value || "—"
 </script>
@@ -13,8 +14,12 @@ const display_value: string = props.value || "—"
     <label>
       <slot name="label">{{ props.label }}</slot>
     </label>
-    <strong>
-      <slot>{{ display_value ?? "—" }}</slot>
+
+    <span v-if="noBold">
+      <slot>{{ display_value || "—" }}</slot>
+    </span>
+    <strong v-else>
+      <slot>{{ display_value || "—" }}</slot>
     </strong>
   </div>
 </template>

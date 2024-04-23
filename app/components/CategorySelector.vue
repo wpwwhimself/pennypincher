@@ -12,14 +12,14 @@ const categories = ref<Category[]>()
 const listCategories = (parent?: Category) => {
   categories.value = (parent)
     ? [parent, ...(parent.subcategories || [])]
-    : categories.value = allCategories.value?.filter(cat => !cat.parent_id) ?? []
+    : categories.value = allCategories.value?.filter(cat => !cat.parent_id) || []
 }
 
 onMounted(() => {
   if (props.value) {
     current_category.value = allCategories.value?.find(cat => cat.id.toString() == props.value)
   }
-  listCategories(current_category.value?.parent ?? current_category.value)
+  listCategories(current_category.value?.parent || current_category.value)
 })
 
 const update = (category: Category) => {
@@ -42,7 +42,7 @@ const reset = () => {
   <div class="category-selector-container flex-down tight">
     <label for="category_id">Kategoria</label>
     <input type="hidden" id="category_id" name="category_id" :value="current_value" :="$attrs">
-    <div class="flex-right tight">
+    <div class="flex-right tight wrap">
       <AppButton v-for="category of categories"
         :label="category.color ? '&#11044;' : category.name"
         :label-on-hover="category.color ? category.name : undefined"

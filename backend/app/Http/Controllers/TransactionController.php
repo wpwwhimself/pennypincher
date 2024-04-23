@@ -11,7 +11,11 @@ class TransactionController extends Controller
     public function list($id = null) {
         $data = $id
             ? Transaction::find($id)
-            : Transaction::with("account", "category.parent")->get();
+            : Transaction::with("account", "category.parent")
+                ->orderByDesc("date")
+                ->orderByDesc("created_at")
+                ->paginate(20)
+            ;
 
         return response()->json($data);
     }

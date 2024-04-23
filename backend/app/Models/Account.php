@@ -9,6 +9,8 @@ class Account extends Model
 {
     use HasFactory;
 
+    public static $TRANSFER_PREFIX = "Z: ";
+
     protected $fillable = [
         "name",
         "description",
@@ -22,6 +24,9 @@ class Account extends Model
         return $this->hasMany(Transaction::class)->orderByDesc("date");
     }
 
+    public function getTransferCategoryAttribute() {
+        return Category::where("name", self::$TRANSFER_PREFIX.$this->name);
+    }
     public function getBalanceAttribute() {
         return $this->transactions->sum("amount");
     }

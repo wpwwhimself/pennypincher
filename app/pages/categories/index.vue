@@ -27,7 +27,7 @@ const { data: categories } = await useFetch<Category[]>("http://localhost:8000/a
           </div>
 
           <div class="flex-right tight">
-            <AppButton label="Edytuj" @click="navigateTo(`/categories/edit/${category.id}`)" />
+            <AppButton label="Edytuj" @click="navigateTo(`/categories/edit/${category.id}`)" v-if="category.id != 1" />
             <AppButton label="Transakcje" @click="navigateTo({
               path: `/transactions`,
               query: {
@@ -39,13 +39,16 @@ const { data: categories } = await useFetch<Category[]>("http://localhost:8000/a
           <div class="flex-down">
             <h3>Podkategorie:</h3>
             <div class="flex-right tight wrap">
-              <AppButton v-for="subcat of category.subcategories" v-if="category.subcategories?.length"
+              <AppButton v-for="subcat of category.subcategories" v-if="category.subcategories?.length && category.id != 1"
                 :label="subcat.name"
                 @click="navigateTo(`/categories/edit/${subcat.id}`)"
               />
+              <AppButton v-for="subcat of category.subcategories" v-else-if="category.subcategories?.length"
+                :label="subcat.name"
+              />
               <span v-else>Brak</span>
             </div>
-            <AppButton label="Dodaj" @click="navigateTo(`/categories/create/forParent/${category.id}`)" />
+            <AppButton label="Dodaj" @click="navigateTo(`/categories/create/forParent/${category.id}`)" v-if="category.id != 1" />
           </div>
         </div>
       </AppSegment>

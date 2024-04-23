@@ -4,7 +4,7 @@ library(tidyverse)
 library(purrr)
 
 #### import data ####
-years_of_life <- 20:26
+years_of_life <- 20:27
 months <- c(
   "styczeń",
   "luty",
@@ -117,9 +117,10 @@ data <-
     map(months, .progress = TRUE, function(month) {
       current_month <- which(months == month)
       current_year <- 1997 + year_of_life - (current_month >= 9)
-      start_date <- ydm(paste(current_year, current_month, 1, sep = "-"))
+      start_date <- ymd(paste(current_year, current_month, 1, sep = "-"))
 
-      if (start_date < ymd("2017-01-01")) return()
+      if (!start_date %within% interval(ymd("2017-01-01"), ymd("2024-04-01")))
+        return()
 
       #### load transactions ####
       data_main <-

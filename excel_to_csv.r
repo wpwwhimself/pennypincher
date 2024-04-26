@@ -139,9 +139,10 @@ data <-
           col_names = c("date", "category_id", "description", "account_id", "amount"),
           col_types = c("numeric", "numeric", "text", "numeric", "numeric")
         ) %>%
-        na.omit() %>%
+        filter(!is.na(date)) %>%
         mutate(
           date = c_day_to_date(date, current_year, current_month),
+          amount = coalesce(amount, 0),
           account_id = case_match(account_id,
             0 ~ "1",
             1 ~ "2",
@@ -150,6 +151,7 @@ data <-
           category_id = category_id %>%
             as_factor() %>%
             fct_recode(!!!c_categories(start_date))
+          
         ) %>%
         mutate( # transfer categories handling
           category_id = if_else(

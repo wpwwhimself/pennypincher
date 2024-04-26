@@ -34,7 +34,7 @@ class AccountController extends Controller
 
     public function edit($id, Request $rq) {
         $data = Account::find($id);
-        $cat = $data->transfer_category;
+        $cat = $data->transfer_category_relation;
 
         foreach ($rq->all() as $key => $val) {
             $data->{Str::snake($key)} = $val;
@@ -48,7 +48,7 @@ class AccountController extends Controller
 
     public function delete($id, Request $rq) {
         $data = Account::find($id);
-        $data->transfer_category->delete();
+        $data->transfer_category_relation->delete();
         $data->delete();
 
         return response()->json($data);

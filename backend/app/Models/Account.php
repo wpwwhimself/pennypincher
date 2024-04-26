@@ -24,10 +24,15 @@ class Account extends Model
         return $this->hasMany(Transaction::class)->orderByDesc("date");
     }
 
-    public function getTransferCategoryAttribute() {
+    public function getTransferCategoryRelationAttribute() {
         return Category::where("name", self::$TRANSFER_PREFIX.$this->name);
     }
+    public function getTransferCategoryAttribute() {
+        return $this->transfer_category_relation->first();
+    }
     public function getBalanceAttribute() {
-        return $this->transactions->sum("amount");
+        return $this->transactions->sum("amount")
+            - Transaction::where("category_id", $this->transfer_category->id)
+                ->sum("amount");
     }
 }

@@ -131,7 +131,7 @@ data <-
             year_of_life == 25,
             "A10:E9999",
             if_else(
-              start_date <= ymd("2018-12-31"),
+              start_date <= ymd("2018-02-28"),
               "A3:E9999",
               "A2:E9999"
             )

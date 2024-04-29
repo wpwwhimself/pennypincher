@@ -8,12 +8,29 @@ definePageMeta({
 })
 
 const route = useRoute()
+const page = ref(1)
 
 const { data: transactions } = await useFetch<Pagination>("http://localhost:8000/api/transactions/", {
   query: {
-    page: route.params.page || 1
-  }
+    page: page,
+    account: route.query.account,
+    category: route.query.category,
+  },
 })
+
+const changePage = (p: number) => {
+  navigateTo({
+    query: {
+      ...route.query,
+      page: p,
+    }
+  })
+  page.value = p
+  window.scroll({
+    top: 0,
+    behavior: "smooth",
+  })
+}
 </script>
 
 <template>
@@ -22,28 +39,21 @@ const { data: transactions } = await useFetch<Pagination>("http://localhost:8000
       Dodaj nową
     </AppSegment>
 
-    <AppSegment v-if="!transactions?.data.length">
+    <AppSegment v-if="transactions?.data.length == 0">
       Brak transakcji.
     </AppSegment>
-    <div v-else class="flex-down">
-      <AppSegment>
-        <Shoutout label="Strona">
-          {{ transactions.current_page }} z {{ transactions.last_page }}
-        </Shoutout>
-      </AppSegment>
 
-      <template v-for="(t_group, date) of Object.groupBy(transactions.data, ({date}) => format(new Date(date), 'dd.MM.yyyy'))">
+    <div class="flex-down" v-else>
+      <template v-for="(t_group, date) of transactions.data">
         <AppSegment>
           <h2>
-            {{ date }}
+            {{ format(new Date(date), 'dd.MM.yyyy') }}
           </h2>
           <div class="flex-down">
             <AppSegment v-for="transaction of t_group"
               @click="navigateTo(`/transactions/edit/${transaction.id}`)"
             >
               <div class="transactions-list-container">
-                <!-- <Shoutout label="Data" :value="format(new Date(transaction.date), 'dd.MM.yyyy')" /> -->
-      
                 <Shoutout label="Kategoria">
                   <CategoryRender :category="transaction.category" />
                 </Shoutout>
@@ -63,11 +73,11 @@ const { data: transactions } = await useFetch<Pagination>("http://localhost:8000
         </AppSegment>
       </template>
 
-      <div class="flex-right center tight">
-        <AppButton label="Wstecz" />
-        <AppButton label="aaa" />
-        <AppButton label="Dalej" />
-      </div>
+      <Paginator
+        v-if="transactions.data.length != 0"
+        :data="transactions"
+        @change-page="changePage"
+      />
     </div>
   </div>
 </template>

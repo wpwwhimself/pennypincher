@@ -20,10 +20,6 @@ class Account extends Model
         "balance"
     ];
 
-    public function transactions() {
-        return $this->hasMany(Transaction::class)->orderByDesc("date");
-    }
-
     public function getTransferCategoryRelationAttribute() {
         return Category::where("name", self::$TRANSFER_PREFIX.$this->name);
     }
@@ -31,8 +27,10 @@ class Account extends Model
         return $this->transfer_category_relation->first();
     }
     public function getBalanceAttribute() {
-        return $this->transactions->sum("amount")
-            - Transaction::where("category_id", $this->transfer_category->id)
-                ->sum("amount");
+        return round(
+            Transaction::where("account_id", $this->id)->sum("amount")
+            - Transaction::where("category_id", $this->transfer_category->id)->sum("amount"),
+            2
+        );
     }
 }

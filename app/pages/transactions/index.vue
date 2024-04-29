@@ -44,7 +44,7 @@ const changePage = (p: number) => {
     </AppSegment>
 
     <div class="flex-down" v-else>
-      <template v-for="(t_group, date) of transactions.data">
+      <template v-for="(t_group, date) of transactions!.data">
         <AppSegment>
           <h2>
             {{ format(new Date(date), 'dd.MM.yyyy') }}
@@ -74,7 +74,7 @@ const changePage = (p: number) => {
       </template>
 
       <Paginator
-        v-if="transactions.data.length != 0"
+        v-if="transactions!.data.length != 0"
         :data="transactions"
         @change-page="changePage"
       />

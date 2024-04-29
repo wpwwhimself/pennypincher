@@ -148,7 +148,7 @@ thead th, tfoot th{
 
 /* gridding */
 
-.grid-2, .grid-3, .grid-5{
+.grid-2, .grid-3, .grid-4, .grid-5{
   display: grid;
   gap: 1em;
   grid-template-columns: repeat(var(--grid-count), 1fr);
@@ -160,6 +160,7 @@ thead th, tfoot th{
 }
 .grid-2{ --grid-count: 2 }
 .grid-3{ --grid-count: 3 }
+.grid-4{ --grid-count: 4 }
 .grid-5{ --grid-count: 5 }
 
 /* Interactives */

@@ -32,6 +32,7 @@ const props = withDefaults(defineProps<{
     font-size: 1.25em;
     outline: 0 none;
     padding: 0;
+    width: 100%;
 
     &:focus {
       border-color: hsl(var(--acc));

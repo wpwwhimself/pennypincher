@@ -3,6 +3,13 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   app: {
-    pageTransition: { name: "slide", mode: "out-in" }
+    pageTransition: { name: "slide", mode: "out-in" },
+    head: {
+      link: [{
+        rel: "icon",
+        href: "icon.svg",
+        type: "image/svg+xml",
+      }]
+    }
   },
 })

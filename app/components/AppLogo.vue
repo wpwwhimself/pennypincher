@@ -1,8 +1,26 @@
+<script setup lang="ts">
+const params = defineProps<{
+  small?: boolean,
+}>()
+</script>
+
 <template>
-  <img src="" alt="logo">
+  <img
+    src="/icon.svg" alt="logo"
+    :class="[
+      small && 'small',
+    ].filter(Boolean).join(' ')"
+  >
 </template>
 
 <style scoped>
+img {
+  max-width: 3.5em;
+
+  &.small {
+    height: 1.75em;
+  }
+}
 footer{
   background-color: black;
   color: white;

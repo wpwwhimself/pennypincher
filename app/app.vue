@@ -9,7 +9,9 @@ useHead({
 
 <template>
   <AppHeader />
-  <NuxtLoadingIndicator />
+  <NuxtLoadingIndicator
+    color="hsl(var(--acc))"
+  />
   <div id="main-wrapper">
     <NuxtPage />
   </div>

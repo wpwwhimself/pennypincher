@@ -141,6 +141,10 @@ thead th, tfoot th{
 }
 .flex-right{
   flex-direction: row;
+
+  &.backwards {
+    flex-direction: row-reverse;
+  }
 }
 .flex-down{
   flex-direction: column;

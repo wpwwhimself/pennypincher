@@ -1,4 +1,4 @@
-# Pennypincher
+![pennypincher](app/public/splash.svg)
 
 ## 🔧 Installation
 1. Create your own `.env` file out of `.env.example` found in the root folder.

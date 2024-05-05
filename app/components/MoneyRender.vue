@@ -1,15 +1,15 @@
 <script setup lang="ts">
 const props = defineProps<{
-  amount: number,
+  amount?: number,
   plusGreen?: boolean,
 }>()
 </script>
 
 <template>
   <span :class="[
-    amount < 0 && 'bottom',
+    (amount || 0) < 0 && 'bottom',
     amount == 0 && 'middle',
-    amount > 0 && plusGreen && 'top',
+    (amount || 0) > 0 && plusGreen && 'top',
   ].filter(Boolean).join(' ')">
     {{ asPln(amount) || "—" }}
   </span>

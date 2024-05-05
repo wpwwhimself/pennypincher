@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
+import { create, all, round } from "mathjs"
 
 definePageMeta({
   title: "Dodaj transakcję",
@@ -11,7 +12,10 @@ let date = ref(format(new Date(), "yyyy-MM-dd"))
 let category_id = ref("")
 let account_id = ref("")
 let description = ref("")
-let amount = ref("")
+let amount = ref<number>()
+let formula = ref("")
+
+const math = create(all)
 
 const updateRef = (target: string, val: string) => {
   const refTable = {
@@ -20,9 +24,15 @@ const updateRef = (target: string, val: string) => {
     account_id: account_id,
     description: description,
     amount: amount,
+    formula: formula,
   };
 
   refTable[target as keyof typeof refTable].value = val;
+
+  switch (target) {
+    case "formula": runFormula(); break
+    case "amount": formula.value = ""; break
+  }
 }
 
 const handleSubmit = async () => {
@@ -43,6 +53,17 @@ const handleSubmit = async () => {
   }
 
   navigateTo("/transactions")
+}
+
+const runFormula = () => {
+  const f = formula.value.replace(/,/g, ".")
+
+  try {
+    const result: number = math.evaluate(f)
+    amount.value = math.round(result, 2)
+  } catch (err) {
+    amount.value = undefined
+  }
 }
 </script>
 
@@ -70,15 +91,24 @@ const handleSubmit = async () => {
           />
         </div>
       </AppSegment>
-      <AppSegment>
-        <div class="flex-down">
-          <AppInput type="number" step="0.01"
-            name="amount"
-            label="Kwota [zł]"
-            :value="amount"
-            required
-            @input="updateRef('amount', $event.target.value)"
-          />
+
+      <div class="flex-down">
+        <AppSegment>
+          <div class="flex-down">
+            <AppInput
+              name="formula"
+              label="Formuła"
+              :value="formula"
+              @input="updateRef('formula', $event.target.value)"
+            />
+
+            <Shoutout label="Kwota">
+              <MoneyRender :amount="amount" />
+            </Shoutout>
+          </div>
+        </AppSegment>
+        
+        <AppSegment>
           <AppInput type="date"
             name="date"
             label="Data"
@@ -86,8 +116,8 @@ const handleSubmit = async () => {
             required
             @input="updateRef('date', $event.target.value)"
           />
-        </div>
-      </AppSegment>
+        </AppSegment>
+      </div>
     </div>
 
     <AppSegment @click="handleSubmit">Utwórz</AppSegment>

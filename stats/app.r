@@ -3,10 +3,12 @@ library(tidyverse)
 library(RMySQL)
 
 # database connection
-source("cred.r")
 con <- dbConnect(MySQL(),
-  host = db_cred$host, port = db_cred$port,
-  dbname = db_cred$name, user = db_cred$user, password = db_cred$password
+  host = Sys.getenv("DB_HOST"),
+  port = Sys.getenv("DB_PORT"),
+  dbname = Sys.getenv("DB_DATABASE"),
+  user = Sys.getenv("DB_USERNAME"),
+  password = Sys.getenv("DB_PASSWORD")
 )
 
 dbSendQuery(con, "select * from transactions;") %>%

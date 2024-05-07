@@ -11,15 +11,23 @@ services:
     depends_on:
       - backend
 
-  # frontend:
-  #   container_name: frontend
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "81:81"
-  #   depends_on:
-  #     - backend
+  stats:
+    container_name: stats
+    build:
+      context: ./stats
+      dockerfile: Dockerfile
+    ports:
+      - "81:81"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=pennypincher
+      - DB_USERNAME=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
 
   backend:
     container_name: backend

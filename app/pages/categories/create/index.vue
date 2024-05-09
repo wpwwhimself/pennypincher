@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   title: "Dodaj kategorię",
-  // icon: "house-chimney",
+  icon: "add",
 })
 const [route, router] = [useRoute(), useRouter()]
 
@@ -40,7 +40,7 @@ const handleSubmit = async () => {
 
 <template>
   <div class="flex-down">
-    <AppSegment @click="navigateTo('/categories')">Wróć do listy</AppSegment>
+    <AppButton @click="navigateTo('/categories')" label="Wróć do listy" icon="back" />
 
     <div class="grid-2">
       <AppSegment>
@@ -72,6 +72,6 @@ const handleSubmit = async () => {
       </AppSegment>
     </div>
 
-    <AppSegment @click="handleSubmit">Utwórz</AppSegment>
+    <AppButton @click="handleSubmit" label="Utwórz" icon="accept" />
   </div>
 </template>

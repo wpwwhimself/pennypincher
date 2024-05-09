@@ -10,6 +10,7 @@ const navigatable = router.getRoutes()
   <nav class="flex-right tight">
     <AppButton v-for="x in navigatable"
       :label="(x.meta.title as string)"
+      :icon="(x.meta.icon as string)"
       @click="navigateTo(x)"
     />
   </nav>

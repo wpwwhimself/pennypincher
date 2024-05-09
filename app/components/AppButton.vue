@@ -18,6 +18,7 @@ const props = defineProps<{
     @mouseover=""
     @mouseleave=""
   >
+    <Icon v-if="icon" :name="`fluent-mdl2:${icon}`" />
     {{ label }}
   </AppSegment>
 </template>

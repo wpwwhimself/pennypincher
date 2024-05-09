@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   title: "Kategorie",
-  // icon: "house-chimney",
+  icon: "archive",
   order: 3,
 })
 const { data: categories } = await useFetch<Category[]>("http://localhost:8000/api/categories/")
@@ -9,9 +9,7 @@ const { data: categories } = await useFetch<Category[]>("http://localhost:8000/a
 
 <template>
   <div class="flex-down">
-    <AppSegment @click="navigateTo('/categories/create')">
-      Dodaj nową
-    </AppSegment>
+    <AppButton @click="navigateTo('/categories/create')" label="Dodaj nową" icon="add" />
 
     <AppSegment v-if="!categories?.length">
       Brak utworzonych kategorii. Dodaj nową.
@@ -27,8 +25,8 @@ const { data: categories } = await useFetch<Category[]>("http://localhost:8000/a
           </div>
 
           <div class="flex-right tight">
-            <AppButton label="Edytuj" @click="navigateTo(`/categories/edit/${category.id}`)" v-if="category.id != 1" />
-            <AppButton label="Transakcje" @click="navigateTo({
+            <AppButton label="Edytuj" icon="edit" @click="navigateTo(`/categories/edit/${category.id}`)" v-if="category.id != 1" />
+            <AppButton label="Transakcje" icon="group-list" @click="navigateTo({
               path: `/transactions`,
               query: {
                 category: category.id,
@@ -48,7 +46,7 @@ const { data: categories } = await useFetch<Category[]>("http://localhost:8000/a
               />
               <span v-else>Brak</span>
             </div>
-            <AppButton label="Dodaj" @click="navigateTo(`/categories/create/forParent/${category.id}`)" v-if="category.id != 1" />
+            <AppButton label="Dodaj" icon="add" @click="navigateTo(`/categories/create/forParent/${category.id}`)" v-if="category.id != 1" />
           </div>
         </div>
       </AppSegment>

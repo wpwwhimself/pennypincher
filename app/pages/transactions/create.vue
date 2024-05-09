@@ -4,7 +4,7 @@ import { create, all, round } from "mathjs"
 
 definePageMeta({
   title: "Dodaj transakcję",
-  // icon: "house-chimney",
+  icon: "add",
 })
 const [route, router] = [useRoute(), useRouter()]
 
@@ -69,7 +69,7 @@ const runFormula = () => {
 
 <template>
   <div class="flex-down">
-    <AppSegment @click="navigateTo('/transactions')">Wróć do listy</AppSegment>
+    <AppButton @click="navigateTo('/transactions')" label="Wróć do listy" icon="back" />
 
     <div class="grid-2">
       <AppSegment>
@@ -120,6 +120,6 @@ const runFormula = () => {
       </div>
     </div>
 
-    <AppSegment @click="handleSubmit">Utwórz</AppSegment>
+    <AppButton @click="handleSubmit" label="Utwórz" icon="accept" />
   </div>
 </template>

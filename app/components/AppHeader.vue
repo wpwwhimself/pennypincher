@@ -10,7 +10,10 @@ const route = useRoute()
         <div class="flex-right">
           <AppLogo />
           <div>
-            <h1>{{ route.meta.title }}</h1>
+            <h1>
+              <Icon v-if="route.meta.icon" :name="route.meta.icon ? `fluent-mdl2:${route.meta.icon}` : ''" />
+              {{ route.meta.title }}
+            </h1>
             <p class="accent">{{ appConfig.title }}</p>
           </div>
         </div>

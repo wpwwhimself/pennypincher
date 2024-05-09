@@ -3,7 +3,7 @@ import { format } from "date-fns"
 
 definePageMeta({
   title: "Transakcje",
-  // icon: "house-chimney",
+  icon: "group-list",
   order: 2,
 })
 
@@ -35,9 +35,7 @@ const changePage = (p: number) => {
 
 <template>
   <div class="flex-down">
-    <AppSegment @click="navigateTo('/transactions/create')">
-      Dodaj nową
-    </AppSegment>
+    <AppButton @click="navigateTo('/transactions/create')" label="Dodaj nową" icon="add" />
 
     <AppSegment v-if="transactions?.data.length == 0">
       Brak transakcji.

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   title: "Edytuj konto",
-  // icon: "house-chimney",
+  icon: "edit",
 })
 const [route, router] = [useRoute(), useRouter()]
 
@@ -41,7 +41,7 @@ const handleSubmit = async () => {
 
 <template>
   <div class="flex-down">
-    <AppSegment @click="navigateTo('/accounts')">Wróć do listy</AppSegment>
+    <AppButton @click="navigateTo('/accounts')" label="Wróć do listy" icon="back" />
 
     <div class="grid-2">
       <AppSegment>
@@ -74,8 +74,8 @@ const handleSubmit = async () => {
     </div>
 
     <div class="grid-2">
-      <AppSegment @click="handleSubmit">Popraw</AppSegment>
-      <AppSegment @click="navigateTo(`/confirm/delete/accounts/${$route.params.id}`)">Usuń</AppSegment>
+      <AppButton @click="handleSubmit" label="Popraw" icon="accept" />
+      <AppButton @click="navigateTo(`/confirm/delete/accounts/${$route.params.id}`)" label="Usuń" icon="delete" />
     </div>
   </div>
 </template>

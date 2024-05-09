@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   title: "Konta",
-  // icon: "house-chimney",
+  icon: "bank",
   order: 4,
 })
 const { data: accounts } = await useFetch<Account[]>("http://localhost:8000/api/accounts/")
@@ -9,9 +9,7 @@ const { data: accounts } = await useFetch<Account[]>("http://localhost:8000/api/
 
 <template>
   <div class="flex-down">
-    <AppSegment @click="navigateTo('/accounts/create')">
-      Dodaj nowe
-    </AppSegment>
+    <AppButton @click="navigateTo('/accounts/create')" icon="add" label="Dodaj nowe" />
 
     <AppSegment v-if="!accounts?.length">
       Brak utworzonych kont. Dodaj nowe konto.
@@ -27,13 +25,8 @@ const { data: accounts } = await useFetch<Account[]>("http://localhost:8000/api/
           </div>
 
           <div class="flex-right tight">
-            <AppButton label="Edytuj" @click="navigateTo(`/accounts/edit/${account.id}`)" />
-            <AppButton label="Transakcje" @click="navigateTo({
-              path: `/transactions`,
-              query: {
-                account: account.id,
-              }
-            })" />
+            <AppButton label="Edytuj" @click="navigateTo(`/accounts/edit/${account.id}`)" icon="edit" />
+            <AppButton label="Transakcje" @click="navigateTo({ path: `/transactions`, query: { account: account.id }})" icon="group-list" />
           </div>
         </div>
       </AppSegment>

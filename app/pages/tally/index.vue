@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   title: "Podliczacz",
-  // icon: "house-chimney",
+  icon: "calculator",
   order: 5,
 })
 
@@ -90,7 +90,7 @@ const prepareTemplate = (template_name: string) => {
           <h2>Szablony podliczacza</h2>
 
           <div class="flex-right tight">
-            <AppButton label="Gotówka" @click="prepareTemplate('cash')" />
+            <AppButton label="Gotówka" icon="money" @click="prepareTemplate('cash')" />
           </div>
 
           <h2>Porównaj z kontem</h2>
@@ -141,7 +141,7 @@ const prepareTemplate = (template_name: string) => {
       </div>
     </AppSegment>
 
-    <AppButton label="Dodaj składnik" @click="addTerm" />
+    <AppButton label="Dodaj składnik" @click="addTerm" icon="add" />
   </div>
 </template>
 

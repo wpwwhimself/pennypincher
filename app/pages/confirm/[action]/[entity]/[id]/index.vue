@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
   title: "Ostrożnie!",
-  // icon: "house-chimney",
+  icon: "warning",
 })
 
 const [route, router] = [useRoute(), useRouter()]
@@ -40,13 +40,13 @@ const back = () => {
     <AppSegment>
       <h2>Potwierdź {{ _.action[0] }} {{ _.entity[0] }}</h2>
       <p>
-        Czy na pewno chcesz {{ _.action[1] }} {{ _.entity[1] }} {{ entity?.name }}?
+        Czy na pewno chcesz {{ _.action[1] }} {{ _.entity[1] }} <strong>{{ entity?.name }}</strong>?
       </p>
     </AppSegment>
 
     <div class="grid-2">
-      <AppSegment @click="action">Tak, {{ _.action[2] }}</AppSegment>
-      <AppSegment @click="back">Nie, wróć</AppSegment>
+      <AppButton @click="action" :label="`Tak, ${_.action[2]}`" icon="accept" />
+      <AppButton @click="back" label="Nie, wróć" icon="cancel" />
     </div>
   </div>
 </template>

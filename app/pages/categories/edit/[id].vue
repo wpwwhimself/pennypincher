@@ -5,8 +5,7 @@ definePageMeta({
 })
 const [route, router] = [useRoute(), useRouter()]
 
-const { data: category, error } = await useLazyFetch<Category>(`http://localhost:8000/api/categories/${route.params.id}/`, {server: false})
-watch(category, (refreshed) => {})
+const { data: category, error } = await useFetch<Category>(`http://localhost:8000/api/categories/${route.params.id}/`, {server: false})
 
 const name = ref(category.value?.name || "")
 const description = ref(category.value?.description || "")

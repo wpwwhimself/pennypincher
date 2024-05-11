@@ -5,7 +5,7 @@ definePageMeta({
 })
 const [route, router] = [useRoute(), useRouter()]
 
-const { data: account, error } = await useLazyFetch<Account>(`http://localhost:8000/api/accounts/${route.params.id}/`, {server: false})
+const { data: account, error } = await useFetch<Account>(`http://localhost:8000/api/accounts/${route.params.id}/`, {server: false})
 watch(account, (refreshed) => {})
 
 const name = ref(account.value?.name || "")

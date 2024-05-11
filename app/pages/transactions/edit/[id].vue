@@ -8,7 +8,7 @@ definePageMeta({
 })
 const [route, router] = [useRoute(), useRouter()]
 
-const { data: transaction, error } = await useLazyFetch<Transaction>(`http://localhost:8000/api/transactions/${route.params.id}/`)
+const { data: transaction, error } = await useFetch<Transaction>(`http://localhost:8000/api/transactions/${route.params.id}/`)
 watch(transaction, (refreshed) => {})
 
 let date = ref(format(new Date(transaction.value?.date || ""), "yyyy-MM-dd"))

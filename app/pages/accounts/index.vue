@@ -4,11 +4,13 @@ definePageMeta({
   icon: "bank",
   order: 4,
 })
-const { data: accounts } = await useFetch<Account[]>("http://localhost:8000/api/accounts/")
+const { data: accounts } = await useLazyFetch<Account[]>("http://localhost:8000/api/accounts/", {server: false})
+watch(accounts, (refreshed) => {})
 </script>
 
 <template>
-  <div class="flex-down">
+  <Loader v-if="!accounts" />
+  <div v-else class="flex-down">
     <AppButton @click="navigateTo('/accounts/create')" icon="add" label="Dodaj nowe" />
 
     <AppSegment v-if="!accounts?.length">

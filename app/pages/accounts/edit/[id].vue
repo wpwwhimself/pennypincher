@@ -5,7 +5,8 @@ definePageMeta({
 })
 const [route, router] = [useRoute(), useRouter()]
 
-const { data: account, error } = await useFetch<Account>(`http://localhost:8000/api/accounts/${route.params.id}/`)
+const { data: account, error } = await useLazyFetch<Account>(`http://localhost:8000/api/accounts/${route.params.id}/`, {server: false})
+watch(account, (refreshed) => {})
 
 const name = ref(account.value?.name || "")
 const description = ref(account.value?.description || "")
@@ -40,7 +41,8 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="flex-down">
+  <Loader v-if="!account" />
+  <div v-else class="flex-down">
     <AppButton @click="navigateTo('/accounts')" label="Wróć do listy" icon="back" />
 
     <div class="grid-2">

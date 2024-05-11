@@ -5,7 +5,8 @@ definePageMeta({
 })
 const [route, router] = [useRoute(), useRouter()]
 
-const { data: category, error } = await useFetch<Category>(`http://localhost:8000/api/categories/${route.params.id}/`)
+const { data: category, error } = await useLazyFetch<Category>(`http://localhost:8000/api/categories/${route.params.id}/`, {server: false})
+watch(category, (refreshed) => {})
 
 const name = ref(category.value?.name || "")
 const description = ref(category.value?.description || "")
@@ -40,7 +41,8 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <div class="flex-down">
+  <Loader v-if="!category" />
+  <div v-else class="flex-down">
     <AppButton @click="navigateTo('/categories')" label="Wróć do listy" icon="back" />
 
     <div class="grid-2">

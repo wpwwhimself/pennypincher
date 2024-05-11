@@ -8,8 +8,8 @@ definePageMeta({
 })
 const [route, router] = [useRoute(), useRouter()]
 
-const { data: transaction, error } = await useFetch<Transaction>(`http://localhost:8000/api/transactions/${route.params.id}/`)
-
+const { data: transaction, error } = await useLazyFetch<Transaction>(`http://localhost:8000/api/transactions/${route.params.id}/`)
+watch(transaction, (refreshed) => {})
 
 let date = ref(format(new Date(transaction.value?.date || ""), "yyyy-MM-dd"))
 let category_id = ref(transaction.value?.category_id.toString() || "")
@@ -71,7 +71,8 @@ const runFormula = () => {
 </script>
 
 <template>
-  <div class="flex-down">
+  <Loader v-if="!transaction" />
+  <div v-else class="flex-down">
     <AppButton @click="navigateTo('/transactions')" label="Wróć do listy" icon="back" />
 
     <div class="grid-2">

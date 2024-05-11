@@ -6,7 +6,8 @@ const props = defineProps<{
 
 const current_value = ref(props.value)
 const current_category = ref<Category>()
-const {data: allCategories, error: catError} = await useFetch<Category[]>(`http://localhost:8000/api/categories/-1`)
+const {data: allCategories, error: catError} = await useLazyFetch<Category[]>(`http://localhost:8000/api/categories/-1`, {server: false})
+watch(allCategories, (refreshed) => {})
 const categories = ref<Category[]>()
 
 const listCategories = (parent?: Category) => {
@@ -39,7 +40,8 @@ const reset = () => {
 </script>
 
 <template>
-  <div class="category-selector-container flex-down tight">
+  <Loader v-if="!categories" />
+  <div v-else class="category-selector-container flex-down tight">
     <label for="category_id">Kategoria</label>
     <input type="hidden" id="category_id" name="category_id" :value="current_value" :="$attrs">
     <div class="flex-right tight wrap">

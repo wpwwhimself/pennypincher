@@ -5,7 +5,8 @@ const props = defineProps<{
 }>()
 
 const current_value = ref(props.value)
-const {data: accounts, error} = await useFetch<Account[]>(`http://localhost:8000/api/accounts`)
+const {data: accounts, error} = await useLazyFetch<Account[]>(`http://localhost:8000/api/accounts`, {server: false})
+watch(accounts, (refreshed) => {})
 
 const update = (account: Account) => {
   props.click("account_id", account.id.toString())
@@ -14,7 +15,8 @@ const update = (account: Account) => {
 </script>
 
 <template>
-  <div class="account-selector-container flex-down tight">
+  <Loader v-if="!accounts" />
+  <div v-else class="account-selector-container flex-down tight">
     <label for="account_id">Konto</label>
     <input type="hidden" id="account_id" name="account_id" :value="current_value" :="$attrs">
     <div class="flex-right tight wrap">

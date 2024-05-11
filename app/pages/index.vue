@@ -5,33 +5,31 @@ definePageMeta({
   order: 1,
 })
 
-const {data: accounts, error} = await useFetch<Account[]>(`http://localhost:8000/api/accounts/`)
+const {data: accounts, error} = await useLazyFetch<Account[]>(`http://localhost:8000/api/accounts/`, {server: false})
+watch(accounts, (refreshed) => {})
 </script>
 
 <template>
-  <div class="flex-down">
-    <Loader v-if="!accounts" />
+  <Loader v-if="!accounts" />
+  <div v-else class="flex-down">
+    <AppSegment>
+      <Shoutout label="Całkowity stan konta">
+        <MoneyRender :amount="accounts?.reduce((a, b) => a + b.balance, 0) || 0" />
+      </Shoutout>
+    </AppSegment>
 
-    <template v-else>
-      <AppSegment>
-        <Shoutout label="Całkowity stan konta">
-          <MoneyRender :amount="accounts?.reduce((a, b) => a + b.balance, 0) || 0" />
+    <div class="grid-2">
+      <AppSegment v-for="account of accounts"
+        @click="navigateTo({
+          path: `/transactions`,
+          query: {account: account.id}
+        })"
+      >
+        <Shoutout>
+          <template v-slot:label><AccountRender :account="account" /></template>
+          <MoneyRender :amount="account.balance" />
         </Shoutout>
       </AppSegment>
-  
-      <div class="grid-2">
-        <AppSegment v-for="account of accounts"
-          @click="navigateTo({
-            path: `/transactions`,
-            query: {account: account.id}
-          })"
-        >
-          <Shoutout>
-            <template v-slot:label><AccountRender :account="account" /></template>
-            <MoneyRender :amount="account.balance" />
-          </Shoutout>
-        </AppSegment>
-      </div>
-    </template>
+    </div>
   </div>
 </template>

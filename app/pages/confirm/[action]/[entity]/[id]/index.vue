@@ -17,7 +17,8 @@ const _ = {
   entity: dict[route.params.entity as keyof typeof dict],
 }
 
-const { data: entity, error } = await useFetch<Account>(`http://localhost:8000/api/${route.params.entity}/${route.params.id}/`)
+const { data: entity, error } = await useLazyFetch<Account>(`http://localhost:8000/api/${route.params.entity}/${route.params.id}/`, {server: false})
+watch(entity, (refreshed) => {})
 
 const action = async () => {
   const { data, error } = await useFetch<Account>(`http://localhost:8000/api/${route.params.entity}/${route.params.action}/${route.params.id}/`, {
@@ -36,7 +37,8 @@ const back = () => {
 </script>
 
 <template>
-  <div class="flex-down">
+  <Loader v-if="!entity" />
+  <div v-else class="flex-down">
     <AppSegment>
       <h2>Potwierdź {{ _.action[0] }} {{ _.entity[0] }}</h2>
       <p>

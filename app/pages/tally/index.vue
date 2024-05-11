@@ -15,7 +15,8 @@ const sum = ref(0)
 const terms = ref<Term[]>([])
 const target = ref(0)
 
-const {data: accounts, error} = await useFetch<Account[]>(`http://localhost:8000/api/accounts/`)
+const {data: accounts, error} = await useLazyFetch<Account[]>(`http://localhost:8000/api/accounts/`, {server: false})
+watch(accounts, (refreshed) => {})
 
 const updateTarget = (val: number) => {
   target.value = val
@@ -63,7 +64,8 @@ const prepareTemplate = (template_name: string) => {
 </script>
 
 <template>
-  <div class="flex-down">
+  <Loader v-if="!accounts" />
+  <div v-else class="flex-down">
     <div class="grid-2">
       <AppSegment>
         <div class="flex-down">

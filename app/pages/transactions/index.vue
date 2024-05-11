@@ -8,15 +8,17 @@ definePageMeta({
 })
 
 const route = useRoute()
-const page = ref(1)
+const page = ref(parseInt((route.query.page as string) || "1"))
 
-const { data: transactions } = await useFetch<Pagination>("http://localhost:8000/api/transactions/", {
+const { data: transactions } = await useLazyFetch<Pagination>("http://localhost:8000/api/transactions/", {
   query: {
     page: page,
     account: route.query.account,
     category: route.query.category,
   },
+  server: false,
 })
+watch(transactions, (refreshed) => {})
 
 const changePage = (p: number) => {
   navigateTo({
@@ -34,7 +36,8 @@ const changePage = (p: number) => {
 </script>
 
 <template>
-  <div class="flex-down">
+  <Loader v-if="!transactions" />
+  <div v-else class="flex-down">
     <AppButton @click="navigateTo('/transactions/create')" label="Dodaj nową" icon="add" />
 
     <AppSegment v-if="transactions?.data.length == 0">

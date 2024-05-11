@@ -4,11 +4,13 @@ definePageMeta({
   icon: "archive",
   order: 3,
 })
-const { data: categories } = await useFetch<Category[]>("http://localhost:8000/api/categories/")
+const { data: categories } = await useLazyFetch<Category[]>("http://localhost:8000/api/categories/", {server: false})
+watch(categories, (refreshed) => {})
 </script>
 
 <template>
-  <div class="flex-down">
+  <Loader v-if="!categories" />
+  <div v-else class="flex-down">
     <AppButton @click="navigateTo('/categories/create')" label="Dodaj nową" icon="add" />
 
     <AppSegment v-if="!categories?.length">

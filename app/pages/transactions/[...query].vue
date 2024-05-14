@@ -12,7 +12,7 @@ const route = useRoute()
 
 const { data: transactions } = await useLazyFetch<Pagination>("http://localhost:8000/api/transactions/", {
   query: {
-    page: route.params.query[0] == "page" ? route.params.query[1] : 1,
+    page: (route.params.query && route.params.query[0] == "page") ? route.params.query[1] : 1,
     account: route.query.account,
     category: route.query.category,
   },

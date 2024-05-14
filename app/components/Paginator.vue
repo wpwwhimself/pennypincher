@@ -13,7 +13,7 @@ const neighbourPagesRange = 2;
 
 const route = useRoute()
 const neighbourPages = ref<number[]>()
-const currentPage = ref<number>(parseInt(route.query.page as string) || 1)
+const currentPage = ref<number>(route.params.query[0] == "page" ? parseInt(route.params.query[1] as string) : 1)
 
 const recountNeighbours = () => {
   if (params.data != null) {

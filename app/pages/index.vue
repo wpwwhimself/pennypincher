@@ -2,6 +2,7 @@
 definePageMeta({
   title: "Kokpit",
   icon: "home",
+  showInNav: true,
   order: 1,
 })
 

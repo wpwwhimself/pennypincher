@@ -4,15 +4,15 @@ import { format } from "date-fns"
 definePageMeta({
   title: "Transakcje",
   icon: "group-list",
+  showInNav: true,
   order: 2,
 })
 
 const route = useRoute()
-const page = ref(parseInt((route.query.page as string) || "1"))
 
 const { data: transactions } = await useLazyFetch<Pagination>("http://localhost:8000/api/transactions/", {
   query: {
-    page: page,
+    page: route.params.query[0] == "page" ? route.params.query[1] : 1,
     account: route.query.account,
     category: route.query.category,
   },
@@ -22,12 +22,9 @@ watch(transactions, (refreshed) => {})
 
 const changePage = (p: number) => {
   navigateTo({
-    query: {
-      ...route.query,
-      page: p,
-    }
+    path: `/transactions/page/${p}`,
+    query: route.query
   })
-  page.value = p
   window.scroll({
     top: 0,
     behavior: "smooth",
@@ -45,6 +42,12 @@ const changePage = (p: number) => {
     </AppSegment>
 
     <div class="flex-down" v-else>
+      <Paginator
+        v-if="transactions!.data.length != 0"
+        :data="transactions"
+        @change-page="changePage"
+      />
+
       <template v-for="(t_group, date) of transactions!.data">
         <AppSegment>
           <h2>

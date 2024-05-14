@@ -2,7 +2,7 @@
 const router = useRouter()
 
 const navigatable = router.getRoutes()
-  .filter(route => route.name?.toString().indexOf("-") == -1)
+  .filter(route => route.meta.showInNav)
   .sort((a, b) => (a.meta.order as number) - (b.meta.order as number))
 </script>
 

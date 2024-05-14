@@ -2,6 +2,7 @@
 definePageMeta({
   title: "Podliczacz",
   icon: "calculator",
+  showInNav: true,
   order: 5,
 })
 

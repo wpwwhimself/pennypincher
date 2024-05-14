@@ -16,7 +16,7 @@ let category_id = ref(transaction.value?.category_id.toString() || "")
 let account_id = ref(transaction.value?.account_id.toString() || "")
 let description = ref(transaction.value?.description || "")
 let amount = ref(transaction.value?.amount)
-let formula = ref("")
+let formula = ref(transaction.value?.amount.toString() || "")
 
 const math = create(all)
 

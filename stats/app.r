@@ -11,10 +11,6 @@ con <- dbConnect(MySQL(),
   password = Sys.getenv("DB_PASSWORD")
 )
 
-dbSendQuery(con, "select * from transactions;") %>%
-  fetch() %>%
-  as_tibble()
-
 ui <- fluidPage(
   titlePanel("Rachunek sumienia"),
   sidebarLayout(

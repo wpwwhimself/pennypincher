@@ -1,4 +1,4 @@
-FROM rocker/shiny
+FROM rocker/shiny-verse
 
 WORKDIR /var/www
 
@@ -7,10 +7,10 @@ RUN apt update \
  && apt install -y --no-install-recommends libmysqlclient-dev
 
 # install packages
-RUN R -e "install.packages(c('tidyverse', 'RMySQL', 'dotenv'))"
+RUN R -e "install.packages(c('RMySQL', 'dotenv'))"
 
-COPY app.r ./app.r
+COPY . .
 
-EXPOSE 81
+EXPOSE 8001
 
 CMD Rscript ./app.r

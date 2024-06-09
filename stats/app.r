@@ -3,13 +3,13 @@ library(tidyverse)
 library(RMySQL)
 
 # database connection
-con <- dbConnect(MySQL(),
-  host = Sys.getenv("DB_HOST"),
-  port = as.numeric(Sys.getenv("DB_PORT")),
-  dbname = Sys.getenv("DB_DATABASE"),
-  user = Sys.getenv("DB_USERNAME"),
-  password = Sys.getenv("DB_PASSWORD")
-)
+# con <- dbConnect(MySQL(),
+#   host = Sys.getenv("DB_HOST"),
+#   port = as.numeric(Sys.getenv("DB_PORT")),
+#   dbname = Sys.getenv("DB_DATABASE"),
+#   user = Sys.getenv("DB_USERNAME"),
+#   password = Sys.getenv("DB_PASSWORD")
+# )
 
 ui <- fluidPage(
   titlePanel("Rachunek sumienia"),
@@ -38,4 +38,11 @@ server <- function(input, output) {
   })
 }
 
-shinyApp(ui, server)
+shinyApp(
+  ui,
+  server,
+  options = list(
+    host = "0.0.0.0",
+    port = 8001
+  )
+)

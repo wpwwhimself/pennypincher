@@ -8,11 +8,12 @@ if [%1] == [] (
 
 echo Stopping %1:
 call docker stop %1
-
-echo Clearing up:
 call docker rm -v %1
-call docker image prune -f
 
 echo Rebuilding %1:
 call docker-compose build %1
 call docker-compose up -d
+
+echo Clearing up:
+call docker image prune -f
+call docker builder prune -f

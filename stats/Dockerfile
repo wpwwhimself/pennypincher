@@ -7,7 +7,7 @@ RUN apt update \
  && apt install -y --no-install-recommends libmysqlclient-dev
 
 # install packages
-RUN R -e "install.packages(c('RMySQL', 'dotenv', 'dplyr', 'ggplot2', 'shiny'))"
+RUN R -e "install.packages(c('RMySQL', 'dotenv', 'dplyr', 'ggplot2', 'lubridate', 'stringr', 'shiny'))"
 
 COPY . .
 

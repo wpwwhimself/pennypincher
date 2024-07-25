@@ -12,7 +12,7 @@ call docker rm -v %1
 
 echo Rebuilding %1:
 call docker-compose build %1
-call docker-compose up -d
+call docker-compose up -d %1
 
 echo Clearing up:
 call docker image prune -f

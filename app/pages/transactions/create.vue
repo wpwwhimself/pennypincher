@@ -2,6 +2,7 @@
 import { format } from 'date-fns';
 import { create, all, round } from "mathjs"
 
+const config = useAppConfig()
 definePageMeta({
   title: "Dodaj transakcję",
   icon: "add",
@@ -36,7 +37,7 @@ const updateRef = (target: string, val: string) => {
 }
 
 const handleSubmit = async () => {
-  const {data, error} = await useFetch(`http://localhost:8000/api/transactions/create`, {
+  const {data, error} = await useFetch(`${config.apiUrl}transactions/create`, {
     method: "post",
     body: {
       date: date.value,

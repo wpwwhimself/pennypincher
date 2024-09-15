@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { format } from "date-fns"
 
+const config = useAppConfig()
 definePageMeta({
   title: "Transakcje",
   icon: "group-list",
@@ -10,7 +11,7 @@ definePageMeta({
 
 const route = useRoute()
 
-const { data: transactions } = await useLazyFetch<Pagination>("http://localhost:8000/api/transactions/", {
+const { data: transactions } = await useLazyFetch<Pagination>(`${config.apiUrl}transactions/`, {
   query: {
     page: (route.params.query && route.params.query[0] == "page") ? route.params.query[1] : 1,
     account: route.query.account,

@@ -2,13 +2,14 @@
 import { format } from 'date-fns';
 import { create, all, round } from "mathjs"
 
+const config = useAppConfig()
 definePageMeta({
   title: "Edytuj transakcję",
   icon: "edit",
 })
 const [route, router] = [useRoute(), useRouter()]
 
-const { data: transaction, error } = await useFetch<Transaction>(`http://localhost:8000/api/transactions/${route.params.id}/`)
+const { data: transaction, error } = await useFetch<Transaction>(`${config.apiUrl}transactions/${route.params.id}/`)
 watch(transaction, (refreshed) => {})
 
 let date = ref(format(new Date(transaction.value?.date || ""), "yyyy-MM-dd"))
@@ -39,7 +40,7 @@ const updateRef = (target: string, val: string) => {
 }
 
 const handleSubmit = async () => {
-  const {data, error} = await useFetch(`http://localhost:8000/api/transactions/edit/${route.params.id}`, {
+  const {data, error} = await useFetch(`${config.apiUrl}transactions/edit/${route.params.id}`, {
     method: "post",
     body: {
       date: date.value,

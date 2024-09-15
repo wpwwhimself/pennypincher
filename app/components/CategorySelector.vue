@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const config = useAppConfig()
 const props = defineProps<{
   value: string,
   click: (target: string, val: string) => void,
@@ -6,7 +7,7 @@ const props = defineProps<{
 
 const current_value = ref(props.value)
 const current_category = ref<Category>()
-const {data: allCategories, error: catError} = await useLazyFetch<Category[]>(`http://localhost:8000/api/categories/-1`, {server: false})
+const {data: allCategories, error: catError} = await useLazyFetch<Category[]>(`${config.apiUrl}categories/-1`, {server: false})
 watch(allCategories, (refreshed) => {})
 const categories = ref<Category[]>()
 

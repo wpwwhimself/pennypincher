@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const config = useAppConfig()
 definePageMeta({
   title: "Ostrożnie!",
   icon: "warning",
@@ -17,11 +18,11 @@ const _ = {
   entity: dict[route.params.entity as keyof typeof dict],
 }
 
-const { data: entity, error } = await useLazyFetch<Account>(`http://localhost:8000/api/${route.params.entity}/${route.params.id}/`, {server: false})
+const { data: entity, error } = await useLazyFetch<Account>(`${config.apiUrl}${route.params.entity}/${route.params.id}/`, {server: false})
 watch(entity, (refreshed) => {})
 
 const action = async () => {
-  const { data, error } = await useFetch<Account>(`http://localhost:8000/api/${route.params.entity}/${route.params.action}/${route.params.id}/`, {
+  const { data, error } = await useFetch<Account>(`${config.apiUrl}${route.params.entity}/${route.params.action}/${route.params.id}/`, {
     method: route.params.action == "delete" ? "delete" : "post",
   })
 

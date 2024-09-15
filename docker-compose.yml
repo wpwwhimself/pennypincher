@@ -7,7 +7,7 @@ services:
       context: ./app
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "80:3000"
     depends_on:
       - backend
 
@@ -17,7 +17,7 @@ services:
       context: ./stats
       dockerfile: Dockerfile
     ports:
-      - "8001:8001"
+      - "81:81"
     depends_on:
       database:
         condition: service_healthy
@@ -34,7 +34,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "8001:8000"
     depends_on:
       database:
         condition: service_healthy

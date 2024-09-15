@@ -1,11 +1,12 @@
 <script setup lang="ts">
+const config = useAppConfig()
 definePageMeta({
   title: "Kategorie",
   icon: "archive",
   showInNav: true,
   order: 3,
 })
-const { data: categories } = await useLazyFetch<Category[]>("http://localhost:8000/api/categories/", {server: false})
+const { data: categories } = await useLazyFetch<Category[]>(`${config.apiUrl}categories/`, {server: false})
 watch(categories, (refreshed) => {})
 </script>
 

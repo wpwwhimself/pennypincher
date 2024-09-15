@@ -1,11 +1,12 @@
 <script setup lang="ts">
+const config = useAppConfig()
 const props = defineProps<{
   value: string,
   click: (target: string, val: string) => void,
 }>()
 
 const current_value = ref(props.value)
-const {data: accounts, error} = await useLazyFetch<Account[]>(`http://localhost:8000/api/accounts`, {server: false})
+const {data: accounts, error} = await useLazyFetch<Account[]>(`${config.apiUrl}accounts`, {server: false})
 watch(accounts, (refreshed) => {})
 
 const update = (account: Account) => {

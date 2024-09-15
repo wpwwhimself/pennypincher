@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const config = useAppConfig()
 definePageMeta({
   title: "Kokpit",
   icon: "home",
@@ -6,7 +7,7 @@ definePageMeta({
   order: 1,
 })
 
-const {data: accounts, error} = await useLazyFetch<Account[]>(`http://localhost:8000/api/accounts/`, {server: false})
+const {data: accounts, error} = await useLazyFetch<Account[]>(`${config.apiUrl}accounts/`, {server: false})
 watch(accounts, (refreshed) => {})
 </script>
 

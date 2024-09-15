@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const config = useAppConfig()
 definePageMeta({
   title: "Podliczacz",
   icon: "calculator",
@@ -16,7 +17,7 @@ const sum = ref(0)
 const terms = ref<Term[]>([])
 const target = ref(0)
 
-const {data: accounts, error} = await useLazyFetch<Account[]>(`http://localhost:8000/api/accounts/`, {server: false})
+const {data: accounts, error} = await useLazyFetch<Account[]>(`${config.apiUrl}accounts/`, {server: false})
 watch(accounts, (refreshed) => {})
 
 const updateTarget = (val: number) => {

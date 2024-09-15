@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const config = useAppConfig()
 definePageMeta({
   title: "Dodaj kategorię",
   icon: "add",
@@ -20,7 +21,7 @@ const updateRef = (target: string, val: string) => {
 }
 
 const handleSubmit = async () => {
-  const {data, error} = await useFetch(`http://localhost:8000/api/categories/create`, {
+  const {data, error} = await useFetch(`${config.apiUrl}categories/create`, {
     method: "post",
     body: {
       name: name.value,

@@ -11,6 +11,6 @@ RUN R -e "install.packages(c('RMySQL', 'dotenv'))"
 
 COPY . .
 
-EXPOSE 8001
+EXPOSE 81
 
 CMD Rscript ./app.r

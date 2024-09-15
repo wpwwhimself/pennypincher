@@ -1,11 +1,12 @@
 <script setup lang="ts">
+const config = useAppConfig()
 definePageMeta({
   title: "Edytuj konto",
   icon: "edit",
 })
 const [route, router] = [useRoute(), useRouter()]
 
-const { data: account, error } = await useFetch<Account>(`http://localhost:8000/api/accounts/${route.params.id}/`, {server: false})
+const { data: account, error } = await useFetch<Account>(`${config.apiUrl}accounts/${route.params.id}/`, {server: false})
 watch(account, (refreshed) => {})
 
 const name = ref(account.value?.name || "")
@@ -23,7 +24,7 @@ const updateRef = (target: string, val: string) => {
 }
 
 const handleSubmit = async () => {
-  const {data, error} = await useFetch(`http://localhost:8000/api/accounts/edit/${route.params.id}`, {
+  const {data, error} = await useFetch(`${config.apiUrl}accounts/edit/${route.params.id}`, {
     method: "post",
     body: {
       name: name.value,

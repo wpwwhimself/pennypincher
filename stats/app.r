@@ -27,7 +27,8 @@ shinyApp(
             tableOutput("rollingSum")
           ),
           tabPanel(
-            "Kategorie"
+            "Kategorie",
+            plotOutput("categories")
           )
         )
       )
@@ -87,6 +88,13 @@ shinyApp(
       ))
       # todo odjąć przepływy z kategorii transferowych
     })
+    categories_summary <- reactive({
+      transactions %>%
+      left_join(categories, by = c("category_id" = "id")) %>%
+      group_by(date, category_id, parent_id) %>%
+      summarise(amount = sum(amount, na.rm = TRUE)) %>%
+      ungroup()
+    })
 
     # outputs
     output$breakdown <- renderPlot(
@@ -123,6 +131,21 @@ shinyApp(
           )
     )
     output$rollingSum <- renderTable(rolling_sum())
+
+    output$categories <- renderPlot(
+      categories_summary() %>%
+        group_by(month, category_id) %>%
+        summarise(amount = sum(amount)) %>%
+        left_join(categories, by = c("category_id" = "id")) %>%
+        ggplot(aes(x = month, y = amount, fill = category_name)) +
+          geom_col(position = "dodge") +
+          theme(legend.position = "top") +
+          scale_y_continuous(labels = label_number()) +
+          scale_fill_manual(
+            name = "Typ",
+            labels = c("Przychody", "Wydatki")
+          )
+    )
 
     dbDisconnect(con)
   },

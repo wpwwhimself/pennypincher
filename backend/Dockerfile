@@ -2,6 +2,9 @@ FROM bitnami/laravel:10.3.3
 
 WORKDIR /var/www
 
+# mysql
+RUN apt update && apt install -y mariadb-client
+
 # cron
 RUN apt update && apt install -y cron
 COPY crontab /etc/cron.d/crontab

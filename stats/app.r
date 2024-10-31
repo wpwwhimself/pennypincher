@@ -29,7 +29,7 @@ shinyApp(
           ),
           tabPanel(
             "Kategorie",
-            plotOutput("categories")
+            uiOutput("categories")
           )
         )
       )
@@ -94,9 +94,27 @@ shinyApp(
     categories_summary <- reactive({
       transactions %>%
       left_join(categories, by = c("category_id" = "id")) %>%
-      group_by(date, category_id, parent_id) %>%
+      filter(date %within% interval(
+        as_date(as.POSIXct(input$datesRange[1])),
+        as_date(as.POSIXct(input$datesRange[2]))
+      )) %>%
+      complete(
+        date = seq(min(date), max(date), by = "day"),
+        category_id,
+        amount = 0
+      ) %>%
+      mutate(
+        month = paste(
+          str_pad(year(date), 4, "left", 0),
+          str_pad(month(date), 2, "left", 0),
+          sep = "-"
+        )
+      ) %>%
+      group_by(month, category_id) %>%
       summarise(amount = sum(amount, na.rm = TRUE)) %>%
-      ungroup()
+      left_join(categories, by = c("category_id" = "id")) %>%
+      mutate(parent_id = coalesce(parent_id, category_id)) %>%
+      arrange(month)
     })
 
     # outputs
@@ -143,20 +161,34 @@ shinyApp(
 
     output$rollingSum <- renderTable(rolling_sum())
 
-    output$categories <- renderPlot(
-      categories_summary() %>%
-        group_by(month, category_id) %>%
-        summarise(amount = sum(amount)) %>%
-        left_join(categories, by = c("category_id" = "id")) %>%
-        ggplot(aes(x = month, y = amount, fill = category_name)) +
-          geom_col(position = "dodge") +
-          theme(legend.position = "top") +
-          scale_y_continuous(labels = label_number()) +
-          scale_fill_manual(
-            name = "Typ",
-            labels = c("Przychody", "Wydatki")
-          )
-    )
+    output$categories <- renderUI({
+      main_categories <- categories %>%
+        filter(is.na(parent_id), id != 1) %>%
+        pull(id)
+
+      lapply(main_categories, function(cat_id) {
+        plot_id <- paste0("plot_", cat_id)
+        plotOutput(plot_id)
+
+        output[[plot_id]] <- renderPlot({
+          categories_summary() %>%
+            filter(parent_id == cat_id) %>%
+            ggplot(aes(x = month, y = amount, fill = name)) +
+              geom_col() +
+              theme(legend.position = "top") +
+              scale_y_continuous(labels = label_number()) +
+              scale_fill_brewer(
+                name = "Kategoria",
+                palette = "Pastel1"
+              ) +
+              labs(
+                title = categories$name[cat_id],
+                x = "Miesiąc",
+                y = "Kwota [zł]"
+              )
+        })
+      })
+    })
 
     dbDisconnect(con)
   },

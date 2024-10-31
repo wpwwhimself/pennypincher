@@ -18,9 +18,10 @@ shinyApp(
       mainPanel(
         tabsetPanel(
           tabPanel(
-            "Miesięcznie",
+            "Przychody/wydatki",
             plotOutput("breakdown"),
-            plotOutput("balance")
+            plotOutput("balance"),
+            tableOutput("inVsOut")
           ),
           tabPanel(
             "Majątek",
@@ -114,7 +115,7 @@ shinyApp(
             values = c("chartreuse3", "brown2")
           ) +
           labs(
-            title = "Przychody vs wydatki",
+            title = "Rozbicie miesięczne",
             x = "Miesiąc",
             y = "Kwota [zł]"
           )
@@ -132,6 +133,14 @@ shinyApp(
             y = "Kwota [zł]"
           )
     )
+    output$inVsOut <- renderTable({
+      transactions_summary() %>%
+        group_by(is_income) %>%
+        summarise(amount = sum(amount)) %>%
+        pivot_wider(names_from = is_income, values_from = amount) %>%
+        mutate(Dochody = Przychody + Wydatki)
+    })
+
     output$rollingSum <- renderTable(rolling_sum())
 
     output$categories <- renderPlot(

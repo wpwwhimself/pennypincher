@@ -58,6 +58,8 @@ shinyApp(
     # data
     transactions_summary <- reactive({
       transactions %>%
+      left_join(categories, by = c("category_id" = "id")) %>%
+      filter(parent_id != 1) %>%
       select(date, amount) %>%
       mutate(
         month = paste(

@@ -22,9 +22,9 @@ const update = (account: Account) => {
     <input type="hidden" id="account_id" name="account_id" :value="current_value" :="$attrs">
     <div class="flex-right tight wrap">
       <AppButton v-for="account of accounts"
-        label="&#11044;"
-        :label-on-hover="account.name"
-        :text-color="account.color"
+        :label="account.name"
+        icon="circle-fill"
+        :icon-color="account.color"
         :highlighted="account.id.toString() == current_value"
         @click="update(account)"
       />

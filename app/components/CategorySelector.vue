@@ -46,17 +46,17 @@ const reset = () => {
     <label for="category_id">Kategoria</label>
     <input type="hidden" id="category_id" name="category_id" :value="current_value" :="$attrs">
     <div class="flex-right tight wrap">
-      <AppButton v-for="category of categories"
-        :label="category.color ? '&#11044;' : category.name"
-        :label-on-hover="category.color ? category.name : undefined"
-        :text-color="category.color"
-        :highlighted="category.id.toString() == current_value"
-        @click="update(category)"
-      />
       <AppButton v-if="current_category"
         label="Wróć"
         text-color="gray"
         @click="reset()"
+      />
+      <AppButton v-for="category of categories"
+        :label="category.name"
+        :icon="category.color ? 'circle-fill' : undefined"
+        :icon-color="category.color"
+        :highlighted="category.id.toString() == current_value"
+        @click="update(category)"
       />
     </div>
   </div>

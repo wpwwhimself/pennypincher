@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const props = defineProps<{
   label: string,
-  labelOnHover?: string,
   icon?: string,
   highlighted?: boolean,
   textColor?: string,
+  iconColor?: string,
 }>()
 </script>
 
@@ -18,7 +18,7 @@ const props = defineProps<{
     @mouseover=""
     @mouseleave=""
   >
-    <Icon v-if="icon" :name="`fluent-mdl2:${icon}`" />
+    <Icon v-if="icon" :name="`fluent-mdl2:${icon}`" :style="iconColor && `color: ${iconColor} !important`" />
     {{ label }}
   </AppSegment>
 </template>

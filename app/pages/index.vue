@@ -33,5 +33,7 @@ watch(accounts, (refreshed) => {})
         </Shoutout>
       </AppSegment>
     </div>
+
+    <AppButton @click="navigateTo(config.statsUrl, { external: true })" label="Statystyki" icon="bar-chart-vertical-fill" />
   </div>
 </template>
